@@ -1,79 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Countdown to Girlfriend 💕</title>
-    <style>
-      :root {
-        font-family: system-ui, Arial, sans-serif;
-        --bg: #111;
-        --fg: #f8f8f8;
-        --accent: #ff4d6d;
-      }
-      html, body {
-        margin: 0; height: 100%; background: var(--bg); color: var(--fg);
-        display: grid; place-items: center;
-      }
-      main {
-        text-align: center; padding: 2rem; border-radius: 1rem;
-        box-shadow: 0 0 25px rgba(255,255,255,.08);
-      }
-      h1 { margin: 0 0 .5rem; font-size: 1.6rem; letter-spacing: .05em; }
-      #clock { font-size: 2.8rem; font-weight: 700; color: var(--accent); }
-      #msg  { font-size: 1.8rem; color: var(--accent); }
-      footer { margin-top: 1.2rem; font-size: .8rem; opacity: .6; }
-    </style>
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countdown to Us 💕</title>
+  <style>
+    :root{
+      --bg1:#ffecd2; /* peach */
+      --bg2:#fcb69f; /* coral */
+      --fg:#2b2b2b;
+      --accent:#ff4d6d;
+      font-family: "Quicksand", system-ui, Arial, sans-serif;
+    }
+    html,body{height:100%;margin:0;color:var(--fg);
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      display:flex;flex-direction:column;align-items:center;justify-content:flex-start;}
+    h1{margin:2rem 0 .5rem;text-align:center;font-size:clamp(1.4rem,4vw,2.2rem);} 
+    #clock{font-size:clamp(1.6rem,5vw,3rem);font-weight:700;color:var(--accent);}
+    #msg{font-size:2rem;color:var(--accent);}
+    #footer{margin:.5rem 0 2rem;font-size:.8rem;opacity:.7;text-align:center;}
+    /* cute photo styles */
+    .gallery{display:flex;flex-wrap:wrap;justify-content:center;gap:1.4rem;max-width:1200px;padding:1rem 2rem 3rem;}
+    .polaroid{background:#fff;padding:.6rem .6rem 1.2rem;border-radius:.4rem;box-shadow:0 8px 12px rgba(0,0,0,.15);display:inline-block;transition:transform .3s ease, box-shadow .3s ease;}
+    .polaroid img{display:block;max-width:220px;height:auto;border-radius:.2rem;}
+    .polaroid:hover{transform:scale(1.05) rotate(var(--hover-tilt));box-shadow:0 12px 18px rgba(0,0,0,.25);} 
+    .tiltL{transform:rotate(-5deg);} .tiltR{transform:rotate(6deg);} .tiltS{transform:rotate(2deg);} 
+  </style>
 </head>
-
 <body>
-    <main>
-      <h1>Time until you see her 💖</h1>
-      <div id="clock">Loading…</div>
-      <div id="msg" hidden>You're with her! 🌸</div>
-      <footer id="footer"></footer>
-    </main>
+  <h1>Time until we are together 💖</h1>
+  <div id="clock">Loading…</div>
+  <div id="msg" hidden>We are together! 🌸</div>
+  <div id="footer"></div>
 
-    <script>
-      // ----- configuration -----
-      // Meeting time: 26 Jul 2025 04:00 local (or specify TZ explicitly)
-      const target = new Date('2025-07-26T04:00:00');
+  <!-- photo gallery -->
+  <section class="gallery" id="gallery">
+    <!-- JS injects polaroids -->
+  </section>
 
-      // optional: show target info in footer
-      const footer = document.getElementById('footer');
-      footer.textContent = `Target: ${target.toLocaleString()}`;
+<script>
+/* ---------- countdown logic ---------- */
+const target = new Date("2025-07-04T21:00:00-04:00"); // Eastern time
+const footer=document.getElementById("footer");
+footer.textContent=`Meet‑up: ${target.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})}`;
+const clockEl=document.getElementById("clock");
+const msgEl=document.getElementById("msg");
+function update(){
+  const now=new Date();
+  let diff=Math.floor((target-now)/1000);
+  if(diff<=0){clockEl.hidden=true;msgEl.hidden=false;clearInterval(timer);return;}
+  const d=Math.floor(diff/86400); diff%=86400;
+  const h=Math.floor(diff/3600); diff%=3600;
+  const m=Math.floor(diff/60);
+  const s=diff%60;
+  clockEl.textContent=`${String(d).padStart(3,'0')}d ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+update(); const timer=setInterval(update,1000);
 
-      const clockEl = document.getElementById('clock');
-      const msgEl   = document.getElementById('msg');
-
-      function update() {
-        const now = new Date();
-        let diff = Math.floor((target - now) / 1000); // seconds
-
-        if (diff <= 0) {
-          clockEl.hidden = true;
-          msgEl.hidden = false;
-          clearInterval(timer);
-          return;
-        }
-
-        const days    = Math.floor(diff / 86400); diff %= 86400;
-        const hours   = Math.floor(diff / 3600);  diff %= 3600;
-        const minutes = Math.floor(diff / 60);
-        const seconds = diff % 60;
-
-        clockEl.textContent = `${String(days).padStart(3,'0')}d ` +
-                              `${String(hours).padStart(2,'0')}h:` +
-                              `${String(minutes).padStart(2,'0')}m:` +
-                              `${String(seconds).padStart(2,'0')}s`;
-      }
-
-      update();
-      const timer = setInterval(update, 1000);
-    </script>
-  
+/* ---------- cute photo collage ---------- */
+const images=[
+  {src:'assets/AHHHHCUTE!!!.jpg', alt:'Cute smile'},
+  {src:'assets/Dinner.jpg', alt:'Dinner date'},
+  {src:'assets/FirstHike.jpg', alt:'First hike selfie'},
+  {src:'assets/FootinMouth.jpg', alt:'Throwback silliness'},
+  {src:'assets/FunnyDinner.jpg', alt:'Funny dinner moment'},
+  {src:'assets/Kachow.jpg', alt:'Kachow kid'},
+  {src:'assets/Roses.jpg', alt:'Roses'},
+  {src:'assets/YGConcert.jpg', alt:'Concert fun'}
+];
+// shuffle images
+images.sort(()=>Math.random()-0.5);
+const tilts=['tiltL','tiltR','tiltS'];
+const gallery=document.getElementById('gallery');
+images.forEach((img,i)=>{
+  const fig=document.createElement('figure');
+  fig.className=`polaroid ${tilts[i%tilts.length]}`;
+  fig.style.setProperty('--hover-tilt', ( (Math.random()>0.5)?'4deg':'-4deg') );
+  const pic=document.createElement('img');
+  pic.src=img.src; pic.alt=img.alt;
+  fig.appendChild(pic);
+  gallery.appendChild(fig);
+});
+</script>
 </body>
-
 </html>
